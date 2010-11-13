@@ -1,0 +1,12 @@
+== Example
+
+require 'imapsort'
+
+Imapsort.new do
+  login :server => 'my.email.server',
+        :user   => 'my_user_name',
+        :pass   => 'my_password'
+
+  from 'foo@bar'; move 'INBOX.foo'
+  from 'bar@foo'; remove
+end
