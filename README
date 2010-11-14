@@ -1,4 +1,4 @@
-== Example
+# Example
 
 require 'imapsort'
 
@@ -8,5 +8,7 @@ Imapsort.new do
         :pass   => 'my_password'
 
   from 'foo@bar'; move 'INBOX.foo'
+  from 'bar123@foo'; mark 'Seen'; move 'INBOX.bar123'
+  from 'foo234@foo'; move 'INBOX.Trash'
   from 'bar@foo'; remove
 end
