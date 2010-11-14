@@ -25,9 +25,14 @@ class Imapsort
   end
 
   def remove
-    @result.each do |message_id|
-      @imap.store(message_id, '+FLAGS', [:Deleted])
-    end
+    mark('Deleted')
     @imap.expunge
+  end
+
+  def mark flag
+    flags = [:"#{flag}"]
+    @result.each do |message_id|
+      @imap.store(message_id, '+FLAGS', flags)
+    end
   end
 end
