@@ -15,7 +15,15 @@ class Imapsort
     def from email
         @result = @imap.search(['FROM', email])
     end
-  
+
+    def to email
+        @result = @imap.search(['TO', email])
+    end
+
+    def subject string
+        @result = @imap.search(['SUBJECT', string])
+    end
+    
     def move path
         @result.each do |message_id|
             @imap.copy(message_id, path)
