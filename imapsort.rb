@@ -3,6 +3,8 @@ require 'net/imap'
 class Imapsort
     def initialize &block
         instance_eval &block
+        @imap.logout
+        @imap.disconnect
     end
 
     def login account
