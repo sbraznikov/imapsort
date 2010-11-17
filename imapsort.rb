@@ -24,6 +24,14 @@ class Imapsort
         @result = @imap.search(['SUBJECT', string])
     end
     
+    def body string
+        @result = @imap.search(['BODY', string])
+    end
+
+    def cc string
+        @result = @imap.search(['CC', string])
+    end
+    
     def move path
         @result.each do |message_id|
             @imap.copy(message_id, path)
