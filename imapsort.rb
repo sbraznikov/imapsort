@@ -2,23 +2,24 @@ require 'net/imap'
 require 'logger'
 
 class Imapsort
-    def initialize &block
+    def initialize server, user, pass, &block
         @log = Logger.new(STDOUT)
+        @server, @user, @pass = server, user, pass
+        login
         instance_eval &block
         @imap.logout
-        # @imap.disconnect
     end
 
-    def login account
-        imap = Net::IMAP.new(account[:server])
-        imap.authenticate('LOGIN', account[:user], account[:pass])
+    def login
+        imap = Net::IMAP.new(@server)
+        imap.authenticate('LOGIN', @user, @pass)
         imap.select('INBOX')
         @imap = imap
     end
   
     def from email
         @result = @imap.search(['FROM', email])
-        # @log.info("from #{email}")
+        @log.info("from #{email}")
     end
 
     def to email
