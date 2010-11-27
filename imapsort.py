@@ -22,10 +22,10 @@ class Imapsort(object):
             method = getattr(self, method_name)
             method(param)
         else:
-            self.error()
+            self.error(command)
 
-    def error(self):
-        print 'Error!'
+    def error(self, command):
+        print 'Imapsort: command not found: %s' % command
 
     def prepare_result(self, response):
         self.result = ','.join(response.split(' '))
@@ -36,9 +36,6 @@ class Imapsort(object):
             raise RuntimeError(response)
         self.prepare_result(response)
             
-    def email_subject(self, string):
-        print string
-
     def email_action(self, action):
         self.run(action.keys()[0], action[action.keys()[0]])
         
