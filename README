@@ -1,14 +1,16 @@
 # Example
 
-require 'imapsort'
+from imapsort import Imapsort
 
 server = 'my.email.server'
-user   = 'my_user_name'
-pass   = 'my_password'
+user = 'my_user_name'
+password = 'my_password'
 
-Imapsort.new server, user, pass do
-    from 'foo@bar'; move 'INBOX.foo'
-    from 'bar123@foo'; mark 'Seen'; move 'INBOX.bar123'
-    from 'foo234@foo'; move 'INBOX.Trash'
-    from 'bar@foo'; remove
-end
+rules = (
+    ('from', 'foo@bar'),
+    ('action', ('move', 'INBOX.foo)),
+    ('from', 'bar@foo'),
+    ('action', ('move', 'INBOX.bar')),
+)
+
+Imapsort(server, user, password, rules)
