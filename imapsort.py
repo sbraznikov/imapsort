@@ -3,18 +3,21 @@ import imaplib
 
 class Imapsort(object):
     def __init__(self, server, user, password, rules):
+        self.init_imap(server, user, password)
+        self.init_rules(rules)
+
+    def init_imap(self, server, user, password):
         imap = imaplib.IMAP4(server)
         imap.login(user, password)
         imap.select()
         self.imap = imap
+
+    def init_rules(self, rules):
         self.rules = rules
         self.walk()
 
     def walk(self):
-        for rule in self.rules:
-            command = rule.keys()[0]
-            param = rule[rule.keys()[0]]
-            self.run(command, param)
+        [self.run(rule[0], rule[1]) for rule in self.rules]
 
     def run(self, command, param):
         method_name = 'email_%s' % command
@@ -35,10 +38,10 @@ class Imapsort(object):
         if typ != 'OK':
             raise RuntimeError(response)
         self.prepare_result(response)
-            
+
     def email_action(self, action):
-        self.run(action.keys()[0], action[action.keys()[0]])
-        
+        self.run(action[0], action[1])
+
     def email_move(self, path):
         self.imap.copy(self.result, path)
         self.imap.store(self.result, '+FLAGS', r'(\Deleted)')
