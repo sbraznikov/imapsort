@@ -57,6 +57,9 @@ class Imapsort(object):
     def email_action(self, action):
         self.run(action[0], action[1])
 
+    def email_mark(self, flag):
+        self.imap.store(self.result, '+FLAGS', r'(\%s)' % flag)
+
     def email_move(self, path):
         self.imap.copy(self.result, path)
         self.imap.store(self.result, '+FLAGS', r'(\Deleted)')
