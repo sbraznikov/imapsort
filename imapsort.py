@@ -34,7 +34,14 @@ class Imapsort(object):
         self.result = ','.join(response.split(' '))
 
     def email_from(self, email):
-        typ, [response] = self.imap.search(None, '(FROM "%s")' % email)
+        self.search('FROM', email)
+
+    def email_to(self, email):
+        self.search('TO', email)
+        print self.result
+
+    def search(self, header, pattern):
+        typ, [response] = self.imap.search(None, '(%s "%s")' % (header, pattern))
         if typ != 'OK':
             raise RuntimeError(response)
         self.prepare_result(response)
