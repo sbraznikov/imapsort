@@ -33,8 +33,12 @@ class Imapsort(object):
     def prepare_result(self, response):
         self.result = ','.join(response.split(' '))
 
-    def search(self, header, pattern):
-        typ, [response] = self.imap.search(None, '(%s "%s")' % (header, pattern))
+    def search(self, key, pattern, is_header=False):
+        if not is_header:
+            search = '(%s "%s")' % (key, pattern)
+        else:
+            search = '(%s %s)' % (key, pattern)
+        typ, [response] = self.imap.search(None, search)
         if typ != 'OK':
             raise RuntimeError(response)
         self.prepare_result(response)
@@ -53,6 +57,9 @@ class Imapsort(object):
 
     def email_body(self, string):
         self.search('BODY', string)
+
+    def email_header(self, string):
+        self.search('HEADER', string, is_header=True)
 
     def email_action(self, action):
         self.run(action[0], action[1])
