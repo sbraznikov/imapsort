@@ -1,16 +1,26 @@
-# Example
+# imapsort configuration
 
-from imapsort import Imapsort
+imap:
+    server: my.email.server
+    ssl: True
+    port: 993
+    user: my_user_name
+    password: my_password
 
-server = 'my.email.server'
-user = 'my_user_name'
-password = 'my_password'
+jira:
+    conditions:
+        from: jira@jira.symmetrics.de
+    actions:
+        move: INBOX.Trash
 
-rules = (
-    ('from', 'foo@bar'),
-    ('action', ('move', 'INBOX.foo)),
-    ('from', 'bar@foo'),
-    ('action', ('move', 'INBOX.bar')),
-)
+zalando:
+    conditions:
+        from: newsletter@service3.zalando-lounge.de
+    actions:
+        move: INBOX.Trash
 
-Imapsort(server, user, password, rules)
+computerfutures:
+    conditions:
+        from: computerfutures.de
+    actions:
+        move: INBOX.Trash
